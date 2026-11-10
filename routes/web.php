@@ -45,6 +45,13 @@ Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
 })->middleware('auth')->name('dashboard');
 
 // Dashboard admin
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/logs', [
+        \Rap2hpoutre\LaravelLogViewer\LogViewerController::class,
+        'index'
+    ])->name('logs.index');
+});
+
 Route::get('/admin/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'role:admin'])
     ->name('admin.dashboard');
